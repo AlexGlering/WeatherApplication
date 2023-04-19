@@ -17,20 +17,19 @@ const Weather = () => {
   useEffect(() => {
     if (displayWeatherData && city) {
       weatherAPI(city, days, shouldSaveData)
-        .then((response) => {
-          setWeatherData(response.data);
-          // Show 'Data saved' message for 3 seconds when data is saved
-          if (shouldSaveData) {
-            setIsDataSaved(true);
-            setTimeout(() => {
-              setIsDataSaved(false);
-            }, 3000);
-          }
-          setShouldSaveData(false); // Reset the shouldSaveData state after the request
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      .then((response) => {
+        setWeatherData(response.data);
+        if (response.data.isDataSaved) {
+          setIsDataSaved(true);
+          setTimeout(() => {
+            setIsDataSaved(false);
+          }, 3000);
+        }
+        setShouldSaveData(false); // Reset the shouldSaveData state after the request
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     }
   }, [displayWeatherData, city, days, shouldSaveData]);
 

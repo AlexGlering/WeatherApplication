@@ -1,38 +1,30 @@
-// Import required modules
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const axios = require('axios');
 require('dotenv').config();
 
-// Import Forecast schema
 const Forecast = require('./models/forecast.model');
 
-// Create an Express application
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middleware for handling CORS and parsing JSON
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB using the connection URI from environment variables
 const uri = process.env.DB_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const connection = mongoose.connection;
 
-// Handle connection errors
 connection.on('error', (error) => {
   console.log('MongoDB connection error:', error);
 });
 
-// Log successful connection to the MongoDB database
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 });
 
-// Route for fetching forecast data for a city
 app.get('/forecast/:city', async (req, res) => {
   const { city } = req.params;
   const days = req.query.days || 3;
@@ -41,8 +33,8 @@ app.get('/forecast/:city', async (req, res) => {
   // Check if forecast data already exists in the database for the specified city
   let forecastData = await Forecast.findOne({ city, days });
 
-  // If no forecast data exists in the database, fetch it from the API and store it in the database
   if (!forecastData) {
+    // If no forecast data exists in the database, fetch it from the API and store it in the database
     const options = {
       method: "GET",
       url: "https://weatherapi-com.p.rapidapi.com/forecast.json",
@@ -54,9 +46,7 @@ app.get('/forecast/:city', async (req, res) => {
     };
 
     try {
-      // Fetch the forecast data from the API
       const response = await axios.request(options);
-      // Process the hourly data from the API response
       const hourlyData = response.data.forecast.forecastday.flatMap(day =>
         day.hour.map(hour => ({
           time: hour.time,
@@ -65,14 +55,12 @@ app.get('/forecast/:city', async (req, res) => {
         }))
       );
 
-      // Create a new Forecast document using the fetched data
       forecastData = new Forecast({
         city,
         days,
         hourlyData,
       });
 
-      // Save the forecast data to the database if shouldSaveData is true
       if (shouldSaveData) {
         await forecastData.save();
       }
@@ -83,10 +71,12 @@ app.get('/forecast/:city', async (req, res) => {
   }
 
   // Return the forecast data from the database
-  res.json(forecastData.hourlyData);
+  res.json({
+    hourlyData: forecastData.hourlyData,
+    isDataSaved: shouldSaveData && forecastData && forecastData._id,
+  });
 });
 
-// Start the server and listen for incoming requests
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
