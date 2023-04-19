@@ -52,7 +52,9 @@ const Weather = () => {
           <h1>{weatherData.location.name}</h1>
           {/* Map through the forecast data and display it */}
           {weatherData.forecast.forecastday.slice(0, days).map((day) => (
+            // Use the date as the key for each day
             <div key={day.date}>
+              {/* Display the date, max temp, min temp, average temp, max wind, total precipitation, average humidity, and UV index */}
               <h2>{day.date}</h2>
               <p>Max Temp: {day.day.maxtemp_c}°C</p>
               <p>Min Temp: {day.day.mintemp_c}°C</p>
@@ -92,10 +94,13 @@ const Weather = () => {
       {displayWeatherData && renderWeatherData()}
       {/* Display the graph if the displayGraph state is true and weatherData is available */}
       {displayWeatherData && displayGraph && weatherData && (
+        // Pass the hourly data to the Graph component
         <Graph
           hourlyData={weatherData.forecast.forecastday
+            // Slice the forecast data to the number of days specified
             .slice(0, days)
             .flatMap((day) => day.hour)
+            // Map through the hourly data and return an object with the required data
             .map((hour) => ({
               temperature: hour.temp_c,
               windSpeed: hour.wind_kph,

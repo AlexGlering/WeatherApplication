@@ -4,30 +4,38 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 require('dotenv').config();
 
+// Import the Forecast model
 const Forecast = require('./models/forecast.model');
 
+// Create an instance of the express server
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Start the server
 app.use(cors());
 app.use(express.json());
+
 
 const uri = process.env.DB_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// Get the connection to the database
 const connection = mongoose.connection;
 
 connection.on('error', (error) => {
   console.log('MongoDB connection error:', error);
 });
 
+// Once the connection is established, log a message to the console
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 });
 
+// Route to fetch weather data from the API and store it in the database
 app.get('/forecast/:city', async (req, res) => {
   const { city } = req.params;
   const days = req.query.days || 3;
+  // Convert the string value of the 'shouldSaveData' query parameter to a boolean value
   const shouldSaveData = req.query.shouldSaveData === 'true';
 
   // Check if forecast data already exists in the database for the specified city
@@ -45,8 +53,10 @@ app.get('/forecast/:city', async (req, res) => {
       },
     };
 
+    // Use axios to make the API request with the provided options
     try {
       const response = await axios.request(options);
+      // Extract the hourly data from the response
       const hourlyData = response.data.forecast.forecastday.flatMap(day =>
         day.hour.map(hour => ({
           time: hour.time,
@@ -55,6 +65,7 @@ app.get('/forecast/:city', async (req, res) => {
         }))
       );
 
+      // Create a new Forecast document
       forecastData = new Forecast({
         city,
         days,
