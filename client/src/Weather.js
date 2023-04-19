@@ -12,6 +12,8 @@ const Weather = () => {
   const [displayGraph, setDisplayGraph] = useState(false); // Control the display of the graph
   const [shouldSaveData, setShouldSaveData] = useState(false); // Control whether the data should be saved or not
   const [isDataSaved, setIsDataSaved] = useState(false); // Show if data is saved successfully
+  const [isDataSaveFailed, setIsDataSaveFailed] = useState(false);
+
 
   // useEffect to fetch weather data when displayWeatherData, city, days, or shouldSaveData change
   useEffect(() => {
@@ -27,14 +29,20 @@ const Weather = () => {
           setTimeout(() => {
             setIsDataSaved(false);
           }, 3000);
+          setIsDataSaveFailed(false); // Reset the isDataSaveFailed state if saving is successful
+        } else if (shouldSaveData) {
+          setIsDataSaveFailed(true); // Set the isDataSaveFailed state if saving is unsuccessful
+          setTimeout(() => {
+            setIsDataSaveFailed(false);
+          }, 3000);
         }
         setShouldSaveData(false); // Reset the shouldSaveData state after the request
       })
       .catch((error) => {
         console.error(error);
       });
-    }
-  }, [displayWeatherData, city, days, shouldSaveData]);
+  }
+}, [displayWeatherData, city, days, shouldSaveData]);
 
   // Function to render weather data
   const renderWeatherData = () => {
@@ -77,7 +85,9 @@ const Weather = () => {
       {/* Button to save weather data */}
       <button onClick={() => setShouldSaveData(true)}>Save Data</button>
       {/* Message shown when data is saved */}
-      {isDataSaved && <p>Data saved</p>}
+      {isDataSaved && <p>Data saved.</p>}
+      {/* Message shown when data is not saved */}
+      {isDataSaveFailed && <p>Failure. Data couldn't be saved.</p>}
       {/* Render weather data */}
       {displayWeatherData && renderWeatherData()}
       {/* Display the graph if the displayGraph state is true and weatherData is available */}
