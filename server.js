@@ -70,7 +70,9 @@ app.get('/forecast/:city', async (req, res) => {
     }
   }
 
-  // Return the forecast data from the database
+  // Add the 'isDataSaved' property to the response object
+  // This property is set to 'true' if and only if the data is successfully stored in the MongoDB database
+  // The condition checks if shouldSaveData is true, forecastData exists, and forecastData has an _id property
   res.json({
     hourlyData: forecastData.hourlyData,
     isDataSaved: shouldSaveData && forecastData && forecastData._id,

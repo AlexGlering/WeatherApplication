@@ -19,6 +19,9 @@ const Weather = () => {
       weatherAPI(city, days, shouldSaveData)
       .then((response) => {
         setWeatherData(response.data);
+        // Update the isDataSaved state with the value of response.data.isDataSaved
+        // The "Data saved" message will be displayed only when isDataSaved is true
+        // Which means the data has been successfully stored in the MongoDB database
         if (response.data.isDataSaved) {
           setIsDataSaved(true);
           setTimeout(() => {
