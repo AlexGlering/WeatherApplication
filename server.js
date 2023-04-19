@@ -72,9 +72,11 @@ app.get('/forecast/:city', async (req, res) => {
         hourlyData,
       });
 
+      // Save the document to the database if shouldSaveData is true
       if (shouldSaveData) {
         await forecastData.save();
       }
+      // Catch any errors that occur while fetching the data from the API
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Failed to fetch forecast data" });
