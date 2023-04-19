@@ -1,12 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 
-// Don't forget to register the controllers, elements, and scales
+// Register the controllers, elements, and scales for Chart.js
 Chart.register(...registerables);
 
 const Graph = ({ hourlyData = [] }) => {
+  // Create a reference to the canvas element
   const chartRef = useRef(null);
 
+  // useEffect hook to create or update the chart when the hourlyData prop changes
   useEffect(() => {
     if (hourlyData.length > 0 && chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
@@ -16,10 +18,12 @@ const Graph = ({ hourlyData = [] }) => {
         window.myChart.destroy();
       }
 
+      // Prepare the data for the chart: labels, temperatures, and wind speeds
       const labels = hourlyData.map((data, index) => `Hour ${index + 1}`);
       const temperatures = hourlyData.map((data) => data.temperature);
       const windSpeeds = hourlyData.map((data) => data.windSpeed);
 
+      // Create a new chart with the prepared data and options
       window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -81,6 +85,7 @@ const Graph = ({ hourlyData = [] }) => {
     }
   }, [hourlyData]);
 
+  // Render the canvas element for the chart
   return <canvas ref={chartRef} width="800" height="400"></canvas>;
 };
 
