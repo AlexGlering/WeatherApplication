@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.DB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const connection = mongoose.connection;
 
@@ -28,6 +28,7 @@ connection.once('open', () => {
 app.get('/forecast/:city', async (req, res) => {
   const { city } = req.params;
   const days = req.query.days || 3;
+  const shouldSaveData = req.query.shouldSaveData === 'true';
 
   // Check if forecast data already exists in the database for the specified city
   let forecastData = await Forecast.findOne({ city, days });
@@ -59,7 +60,10 @@ app.get('/forecast/:city', async (req, res) => {
         days,
         hourlyData,
       });
-      await forecastData.save();
+
+      if (shouldSaveData) {
+        await forecastData.save();
+      }
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Failed to fetch forecast data" });

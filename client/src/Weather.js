@@ -8,18 +8,27 @@ const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [displayWeatherData, setDisplayWeatherData] = useState(false);
   const [displayGraph, setDisplayGraph] = useState(false);
+  const [shouldSaveData, setShouldSaveData] = useState(false);
+  const [isDataSaved, setIsDataSaved] = useState(false);
 
   useEffect(() => {
     if (displayWeatherData && city) {
-      weatherAPI(city, days)
+      weatherAPI(city, days, shouldSaveData)
         .then((response) => {
           setWeatherData(response.data);
+          if (shouldSaveData) {
+            setIsDataSaved(true);
+            setTimeout(() => {
+              setIsDataSaved(false);
+            }, 3000);
+          }
+          setShouldSaveData(false); // Reset the shouldSaveData state after the request
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [displayWeatherData, city, days]);
+  }, [displayWeatherData, city, days, shouldSaveData]);
 
   const renderWeatherData = () => {
     if (weatherData && weatherData.forecast && weatherData.forecast.forecastday) {
@@ -54,6 +63,8 @@ const Weather = () => {
         onChange={(e) => setCity(e.target.value)}
       />
       <button onClick={() => setDisplayWeatherData(true)}>Show Weather Data</button>
+      <button onClick={() => setShouldSaveData(true)}>Save Data</button>
+      {isDataSaved && <p>Data saved</p>}
       {displayWeatherData && renderWeatherData()}
       {displayWeatherData && displayGraph && weatherData && (
         <Graph
