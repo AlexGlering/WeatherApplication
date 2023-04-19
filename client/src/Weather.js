@@ -18,7 +18,7 @@ const Weather = () => {
   // useEffect to fetch weather data when displayWeatherData, city, days, or shouldSaveData change
   useEffect(() => {
     if (displayWeatherData && city) {
-      weatherAPI(city, days, shouldSaveData)
+      weatherAPI(city, days, shouldSaveData ? 'true' : 'false')
       .then((response) => {
         setWeatherData(response.data);
         // Update the isDataSaved state with the value of response.data.isDataSaved

@@ -51,7 +51,7 @@ app.get('/forecast/:city', async (req, res) => {
         "X-RapidAPI-Key": "bf37078114mshf90b5103cee1f0dp176d3cjsn3b6c0adcfc58",
         "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
       },
-    };
+    };    
 
     // Use axios to make the API request with the provided options
     try {
