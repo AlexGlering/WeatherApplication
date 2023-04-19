@@ -4,6 +4,7 @@ import { Chart, registerables } from 'chart.js';
 // Register the controllers, elements, and scales for Chart.js
 Chart.register(...registerables);
 
+// Graph component to display the hourly temperature and wind speed data
 const Graph = ({ hourlyData = [] }) => {
   // Create a reference to the canvas element
   const chartRef = useRef(null);

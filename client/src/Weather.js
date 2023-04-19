@@ -104,7 +104,6 @@ const Weather = () => {
             .map((hour) => ({
               temperature: hour.temp_c,
               windSpeed: hour.wind_kph,
-              precipitation: hour.totalprecip_mm,
             }))}
         />
       )}
