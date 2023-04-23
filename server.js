@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const weatherAPI = require("./weatherAPI");
-const Forecast = require("./models/forecast.js");
+const Forecast = require("./models/forecast");
 
 const app = express();
 const PORT = process.env.PORT || 3001;

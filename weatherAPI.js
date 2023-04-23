@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 // This function fetches weather data for a given city and number of days,
 // and optionally saves the fetched data to the server-side database
@@ -20,4 +20,4 @@ const weatherAPI = (city, days, shouldSaveData = false) => {
   return axios.request(options);
 };
 
-export default weatherAPI;
+module.exports = weatherAPI;
