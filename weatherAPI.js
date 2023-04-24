@@ -1,13 +1,13 @@
+// Import the axios library for making HTTP requests
 const axios = require("axios");
 
-// This function fetches weather data for a given city and number of days,
-// and optionally saves the fetched data to the server-side database
+// Define the weatherAPI function that takes city and days as parameters
 const weatherAPI = (city, days = false) => {
   // Configure the options for the API request
   const options = {
     method: "GET",
     url: "https://weatherapi-com.p.rapidapi.com/forecast.json",
-    // Pass city, days, and as query parameters
+    // Pass city and days as query parameters
     params: { q: city, days: days },
     headers: {
       // The API key and host are required for authenticating with the Weather API
@@ -20,4 +20,5 @@ const weatherAPI = (city, days = false) => {
   return axios.request(options);
 };
 
+// Export the weatherAPI function for use in other modules
 module.exports = weatherAPI;

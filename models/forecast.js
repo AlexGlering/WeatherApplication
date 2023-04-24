@@ -1,13 +1,17 @@
+// Import the Sequelize library, DataTypes, and Model class
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
+// Set up a new Sequelize instance for connecting to the database
 const sequelize = new Sequelize("weather_app", "root", "", {
   host: "localhost",
   port: 3306,
   dialect: "mysql",
 });
 
+// Define the Forecast model class, extending the Sequelize Model class
 class Forecast extends Model {}
 
+// Initialize the Forecast model with its attributes and options
 Forecast.init(
   {
     id: {
@@ -42,6 +46,7 @@ Forecast.init(
   }
 );
 
+// Synchronize the model with the database, creating the table if it doesn't exist
 sequelize
   .sync()
   .then(() => {
@@ -51,4 +56,5 @@ sequelize
     console.error("Unable to create the forecasts table:", error);
   });
 
+// Export the Forecast model for use in other modules
 module.exports = Forecast;

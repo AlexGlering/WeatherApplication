@@ -2,31 +2,39 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function Weather() {
+  // Define state variables for city and forecast data
   const [city, setCity] = useState("");
   const [forecastData, setForecastData] = useState(null);
 
+  // Function to fetch weather data from the server
   const fetchData = async () => {
     try {
+      // Make an axios POST request to fetch weather data for the specified city
       const response = await axios.post("http://localhost:3001/weather", {
         city: city,
         days: 1,
       });
 
+      // Set the fetched data to the forecastData state variable
       setForecastData(response.data);
     } catch (error) {
+      // Handle errors while fetching weather data
       console.error("Error fetching weather data:", error);
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
   };
 
+  // Function to handle changes in the city input field
   const handleCityChange = (event) => {
     setCity(event.target.value);
   };
 
+  // Render the component
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -51,4 +59,5 @@ function Weather() {
   );
 }
 
+// Export the Weather component for use in other modules
 export default Weather;
