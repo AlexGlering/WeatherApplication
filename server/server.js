@@ -1,7 +1,7 @@
 // Import necessary modules
 const express = require("express");
 const cors = require("cors");
-const weatherAPI = require("./weatherAPI");
+const weatherAPI = require("./routes/weatherAPI");
 const Forecast = require("./models/forecast");
 
 // Initialize Express app and set the port

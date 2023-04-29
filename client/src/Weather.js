@@ -1,40 +1,62 @@
-import React, { useState } from "react";
-import axios from "axios";
+// Importing necessary modules
+import React, { useState } from "react"; // Importing React and useState hooks
+import axios from "axios"; // Importing axios library for making HTTP requests
 
+// Defining a functional component called "Weather"
 function Weather() {
-  // Define state variables for city and forecast data
   const [city, setCity] = useState("");
   const [forecastData, setForecastData] = useState(null);
 
-  // Function to fetch weather data from the server
+  // Defining an asynchronous function to fetch weather data from the server
   const fetchData = async () => {
     try {
-      // Make an axios POST request to fetch weather data for the specified city
+      // Making a post request to the server to fetch weather data for the given city and day
       const response = await axios.post("http://localhost:3001/weather", {
         city: city,
         days: 1,
       });
 
-      // Set the fetched data to the forecastData state variable
+      // Setting the fetched data to "forecastData" state variable
       setForecastData(response.data);
     } catch (error) {
-      // Handle errors while fetching weather data
       console.error("Error fetching weather data:", error);
     }
   };
 
-  // Function to handle form submission
+  // Handling form submission by calling "fetchData" function
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
   };
 
-  // Function to handle changes in the city input field
+  // Handling input change by setting "city" state variable
   const handleCityChange = (event) => {
     setCity(event.target.value);
   };
 
-  // Render the component
+  // Formatting weather data into an array of objects
+  const data = forecastData
+    ? [
+        {
+          name: "Avg Temp",
+          value: forecastData.avgtemp_c,
+        },
+        {
+          name: "Total Precip",
+          value: forecastData.totalprecip_mm,
+        },
+        {
+          name: "Max Wind",
+          value: forecastData.maxwind_kph,
+        },
+        {
+          name: "Avg Humidity",
+          value: forecastData.avghumidity,
+        },
+      ]
+    : [];
+
+  // Rendering form and weather data
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -59,5 +81,4 @@ function Weather() {
   );
 }
 
-// Export the Weather component for use in other modules
 export default Weather;
