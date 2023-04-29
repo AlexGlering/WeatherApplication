@@ -34,7 +34,7 @@ function Weather() {
     setCity(event.target.value);
   };
 
-  // Formatting weather data into an array of objects
+  // Formatting weather data into an array of objects, for use in graph
   const data = forecastData
     ? [
         {
