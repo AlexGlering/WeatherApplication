@@ -1,6 +1,5 @@
 import React, { useState } from "react"; // Importing React and useState hooks
 import axios from "axios"; // Importing axios library for making HTTP requests
-import WeatherBarChart from "./WeatherBarChart"; // Importing custom component for rendering weather data as a bar chart
 
 function Weather() {
   const [city, setCity] = useState("");
@@ -59,15 +58,6 @@ function Weather() {
                 <li>Max Wind Speed: {dayData.wind} km/h</li>
                 <li>Average Humidity: {dayData.humidity}%</li>
               </ul>
-              <WeatherBarChart
-                key={dayData.name}
-                data={[
-                  { name: "Avg Temp", value: dayData.temp },
-                  { name: "Total Precip", value: dayData.precip },
-                  { name: "Max Wind", value: dayData.wind },
-                  { name: "Avg Humidity", value: dayData.humidity },
-                ]}
-              />
             </div>
           ))}
         </div>
