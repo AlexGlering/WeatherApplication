@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const weatherAPI = require("./routes/weatherAPI");
 const Forecast = require("./models/forecast");
+const { Sequelize, Op, DataTypes, Model } = require("sequelize");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -26,11 +27,34 @@ app.post("/weather", async (req, res) => {
     }));
 
     // Delete any existing entries for the city
-    await Forecast.destroy({
+    /*await Forecast.destroy({
       where: {
         city: city,
       },
     });
+    */
+
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    const forecastsExpired = await Forecast.findAll({
+      where: {
+        city: city,
+        date: {
+          [Op.lt]: currentDate,
+        },
+      },
+    });
+
+    // Delete any existing entries for the city
+    if (forecastsExpired.length >= 1){
+      await Forecast.destroy({
+        where: {
+          city: city,
+        },
+      });
+    }
+
 
     // Insert the new forecast data
     const savedForecasts = await Forecast.bulkCreate(forecasts);

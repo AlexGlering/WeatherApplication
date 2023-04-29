@@ -1,5 +1,6 @@
-import React, { useState } from "react"; // Importing React and useState hooks
-import axios from "axios"; // Importing axios library for making HTTP requests
+import React, { useState } from "react";
+import axios from "axios";
+//import WeatherBarChart from "./WeatherBarChart";
 
 function Weather() {
   const [city, setCity] = useState("");
@@ -9,7 +10,7 @@ function Weather() {
     try {
       const response = await axios.post("http://localhost:3001/weather", {
         city: city,
-        days: 3, 
+        days: 3,
       });
 
       setForecastData(response.data);
@@ -37,6 +38,14 @@ function Weather() {
       }))
     : [];
 
+  {/*const data = {
+    temp: forecastList.map((day) => ({ name: day.name, value: day.temp })),
+    precip: forecastList.map((day) => ({ name: day.name, value: day.precip })),
+    wind: forecastList.map((day) => ({ name: day.name, value: day.wind })),
+    humidity: forecastList.map((day) => ({ name: day.name, value: day.humidity })),
+  };
+  */}
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -60,6 +69,14 @@ function Weather() {
               </ul>
             </div>
           ))}
+          {/*<h3>Average Temperature</h3>
+          <WeatherBarChart data={data.temp} />
+          <h3>Total Precipitation</h3>
+          <WeatherBarChart data={data.precip} />
+          <h3>Max Wind Speed</h3>
+          <WeatherBarChart data={data.wind} />
+          <h3>Average Humidity</h3>
+          <WeatherBarChart data={data.humidity} />*/}
         </div>
       )}
     </div>
