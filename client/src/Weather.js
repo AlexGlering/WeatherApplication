@@ -1,6 +1,7 @@
 // Importing necessary modules
 import React, { useState } from "react"; // Importing React and useState hooks
 import axios from "axios"; // Importing axios library for making HTTP requests
+import WeatherBarChart from "./WeatherBarChart"; // Importing custom component for rendering weather data as a bar chart
 
 // Defining a functional component called "Weather"
 function Weather() {
@@ -74,6 +75,10 @@ function Weather() {
             <li>Total Precipitation: {forecastData.totalprecip_mm} mm</li>
             <li>Max Wind Speed: {forecastData.maxwind_kph} km/h</li>
             <li>Average Humidity: {forecastData.avghumidity}%</li>
+             {/* Rendering bar chart using "WeatherBarChart" component */}
+          {data.map((item) => (
+            <WeatherBarChart key={item.name} data={[item]} />
+          ))}
           </ul>
         </div>
       )}
