@@ -1,6 +1,7 @@
 const axios = require("axios");
 
-const weatherAPI = (city, days = 3) => { // Set the default value of days to 3
+const weatherAPI = (city, days = 3) => {
+  // Set the default value of days to 3
   const options = {
     method: "GET",
     url: "https://weatherapi-com.p.rapidapi.com/forecast.json",
