@@ -26,13 +26,6 @@ app.post("/weather", async (req, res) => {
       avghumidity: weather.day.avghumidity,
     }));
 
-    // Delete any existing entries for the city
-    /*await Forecast.destroy({
-      where: {
-        city: city,
-      },
-    });
-    */
     console.log("Hi! I am alive");
 
     const currentDate = new Date().toISOString().split('T')[0];

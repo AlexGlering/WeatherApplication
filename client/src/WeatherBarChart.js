@@ -1,23 +1,31 @@
 import React from "react";
-import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
+import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar, Label } from "recharts";
 
-const WeatherBarChart = ({ data }) => {
+// WeatherBarChart component for rendering a bar chart with custom data, title, dataKey, and yAxisLabel for showing weather data 
+const WeatherBarChart = ({ data, title, dataKey, yAxisLabel }) => {
   return (
-    <BarChart
-      width={600}
-      height={300}
-      data={data}
-      margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-    >
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="avgtemp_c" fill="#8884d8" name="Average Temperature" />
-      <Bar dataKey="totalprecip_mm" fill="#82ca9d" name="Total Precipitation" />
-      <Bar dataKey="maxwind_kph" fill="#ffc658" name="Max Wind Speed" />
-      <Bar dataKey="avghumidity" fill="#FF8042" name="Average Humidity" />
-    </BarChart>
+    <div>
+      <h3>{title}</h3>
+      <BarChart
+        width={600}
+        height={300}
+        data={data}
+        margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+      >
+        <XAxis dataKey="name" />
+        <YAxis>
+          <Label
+            angle={-90}
+            value={yAxisLabel}
+            position="insideLeft"
+            style={{ textAnchor: "middle" }}
+          />
+        </YAxis>
+        <Tooltip />
+        <Legend />
+        <Bar dataKey={dataKey} fill="#8884d8" />
+      </BarChart>
+    </div>
   );
 };
 

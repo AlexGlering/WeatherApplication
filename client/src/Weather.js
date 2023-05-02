@@ -1,33 +1,44 @@
-import React, { useState } from "react";
-import axios from "axios";
-//import WeatherBarChart from "./WeatherBarChart";
+// Imports
+import React, { useState } from "react"; // Import React and useState hook
+import axios from "axios"; // Import axios for HTTP requests
+import WeatherBarChart from "./WeatherBarChart"; // Import WeatherBarChart component
 
+// Weather component
 function Weather() {
-  const [city, setCity] = useState("");
-  const [forecastData, setForecastData] = useState(null);
+  // State variables
+  const [city, setCity] = useState(""); // City input
+  const [displayedCity, setDisplayedCity] = useState(""); // Displayed city name
+  const [forecastData, setForecastData] = useState(null); // Forecast data
 
+  // Fetch weather data from server
   const fetchData = async () => {
     try {
+      // Send HTTP request with city and days
       const response = await axios.post("http://localhost:3001/weather", {
         city: city,
         days: 3,
       });
 
+      // Update state with fetched data
       setForecastData(response.data);
+      setDisplayedCity(city);
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
   };
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
   };
 
+  // Handle city input change
   const handleCityChange = (event) => {
     setCity(event.target.value);
   };
 
+  // Process forecast data into desired format
   const forecastList = forecastData
     ? forecastData.map((forecast) => ({
         name: forecast.date,
@@ -38,16 +49,10 @@ function Weather() {
       }))
     : [];
 
-  {/*const data = {
-    temp: forecastList.map((day) => ({ name: day.name, value: day.temp })),
-    precip: forecastList.map((day) => ({ name: day.name, value: day.precip })),
-    wind: forecastList.map((day) => ({ name: day.name, value: day.wind })),
-    humidity: forecastList.map((day) => ({ name: day.name, value: day.humidity })),
-  };
-  */}
-
+  // Render component
   return (
     <div>
+      {/* Form for city input and button */}
       <form onSubmit={handleSubmit}>
         <label>
           City:
@@ -55,9 +60,12 @@ function Weather() {
         </label>
         <button type="submit">Display Data</button>
       </form>
+      {/* Render weather data */}
       {forecastData && (
         <div>
-          <h2>{city}</h2>
+          {/* Display city name */}
+          <h2>{displayedCity}</h2>
+          {/* Map forecast data to list items */}
           {forecastList.map((dayData, index) => (
             <div key={index}>
               <h3>{dayData.name}</h3>
@@ -69,14 +77,43 @@ function Weather() {
               </ul>
             </div>
           ))}
-          {/*<h3>Average Temperature</h3>
-          <WeatherBarChart data={data.temp} />
-          <h3>Total Precipitation</h3>
-          <WeatherBarChart data={data.precip} />
-          <h3>Max Wind Speed</h3>
-          <WeatherBarChart data={data.wind} />
-          <h3>Average Humidity</h3>
-          <WeatherBarChart data={data.humidity} />*/}
+          {/* Render WeatherBarChart components */}
+          <WeatherBarChart
+            data={forecastList.map((day) => ({
+              name: day.name,
+              value: day.temp,
+            }))}
+            title="Average Temperature"
+            dataKey="value"
+            yAxisLabel="°C"
+          />
+          <WeatherBarChart
+            data={forecastList.map((day) => ({
+              name: day.name,
+              value: day.precip,
+            }))}
+            title="Total Precipitation"
+            dataKey="value"
+            yAxisLabel="mm"
+          />
+          <WeatherBarChart
+            data={forecastList.map((day) => ({
+              name: day.name,
+              value: day.wind,
+            }))}
+            title="Max Wind Speed"
+            dataKey="value"
+            yAxisLabel="km/h"
+          />
+          <WeatherBarChart
+            data={forecastList.map((day) => ({
+              name: day.name,
+              value: day.humidity,
+            }))}
+            title="Average Humidity"
+            dataKey="value"
+            yAxisLabel="%"
+          />
         </div>
       )}
     </div>
