@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const weatherAPI = require("./routes/weatherAPI");
 const Forecast = require("./models/forecast");
-const { Sequelize, Op, DataTypes, Model } = require("sequelize");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,8 +24,6 @@ app.post("/weather", async (req, res) => {
       maxwind_kph: weather.day.maxwind_kph,
       avghumidity: weather.day.avghumidity,
     }));
-
-    console.log("Hi! I am alive");
 
     const currentDate = new Date().toISOString().split('T')[0];
     
