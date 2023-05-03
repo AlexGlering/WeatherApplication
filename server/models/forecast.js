@@ -1,3 +1,5 @@
+//Model for the Forecast table in the database
+
 // Import the Sequelize library, DataTypes, and Model class
 const { Sequelize, DataTypes, Model } = require("sequelize");
 

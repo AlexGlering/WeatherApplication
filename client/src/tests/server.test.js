@@ -3,6 +3,8 @@ import server from "../../../server/server.js";
 import axios from "../../node_modules/axios";
 import Forecast from "../../../server/models/forecast.js";
 
+//Test file for the server endpoint
+
 
 jest.mock("axios");
 

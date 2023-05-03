@@ -3,7 +3,7 @@ import React, { useState } from "react"; // Import React and useState hook
 import axios from "axios"; // Import axios for HTTP requests
 import WeatherBarChart from "./WeatherBarChart"; // Import WeatherBarChart component
 
-// Weather component
+// Weather component for rendering a form for entering a city and displaying weather data
 function Weather() {
   // State variables
   const [city, setCity] = useState(""); // City input

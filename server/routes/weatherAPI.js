@@ -1,3 +1,5 @@
+// This file is used to make the API request to the weather API
+
 const axios = require("axios");
 
 const weatherAPI = (city, days = 3) => {

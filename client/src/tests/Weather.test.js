@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import axios from "axios";
 import Weather from '../Weather';
 
+//Test file for the Weather component
+
 // Mock axios.post
 jest.mock('axios');
 

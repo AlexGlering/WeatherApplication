@@ -1,3 +1,5 @@
+// Purpose: Server side code for the weather app.
+
 const express = require("express");
 const cors = require("cors");
 const weatherAPI = require("./routes/weatherAPI");
@@ -26,7 +28,6 @@ app.post("/weather", async (req, res) => {
     }));
 
     const currentDate = new Date().toISOString().split('T')[0];
-    
     
     // Checking if info on the city exists in the DB already
     const inDatabase = await Forecast.findAll({
