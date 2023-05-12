@@ -56,9 +56,9 @@ function Weather() {
       <form onSubmit={handleSubmit}>
         <label>
           City:
-          <input type="text" value={city} onChange={handleCityChange} />
+          <input id="cityName" type="text" value={city} onChange={handleCityChange} />
         </label>
-        <button type="submit">Display Data</button>
+        <button id="displayButton" type="submit">Display Data</button>
       </form>
       {/* Render weather data */}
       {forecastData && (
@@ -70,10 +70,10 @@ function Weather() {
             <div key={index}>
               <h3>{dayData.name}</h3>
               <ul>
-                <li>Average Temperature: {dayData.temp}°C</li>
-                <li>Total Precipitation: {dayData.precip} mm</li>
-                <li>Max Wind Speed: {dayData.wind} km/h</li>
-                <li>Average Humidity: {dayData.humidity}%</li>
+                <li id="avgTemp">Average Temperature: {dayData.temp}°C</li>
+                <li id="totPrec">Total Precipitation: {dayData.precip} mm</li>
+                <li id="maxWind">Max Wind Speed: {dayData.wind} km/h</li>
+                <li id="avgHumi">Average Humidity: {dayData.humidity}%</li>
               </ul>
             </div>
           ))}
